@@ -1,0 +1,13 @@
+<div> Logged in: ${authenticatedFullName}</div>
+<div>
+    <div>
+        <table>
+            <tr>
+                <td><a href="/userManagement">User management</a></td>
+                <td><a href="/your">Your Files</a></td>
+                <td><a href="">Web Menus</a></td>
+            </tr>
+
+        </table>
+    </div>
+</div><br><br>
