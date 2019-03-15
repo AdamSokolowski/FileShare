@@ -1,24 +1,24 @@
-package pl.coderslab.spring01hibernate;
+package pl.asprojects.fileshare;
 
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.asprojects.fileshare.config.CurrentUser;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@SessionAttributes({"authenticatedUserId", "authenticatedFullName"})
+@SessionAttributes({"authenticatedFullName"})
 public class UserController {
     @Autowired
     UserDao userDao;
 
-    long authenticatedUserId = 0;
-    //String authenticatedFullName ="";
+    private String authenticatedFullName = "";
 
-    @RequestMapping(value = "/user/add/{email}/{password}/{firstName}/{lastName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/user/add/{email}/{password}/{firstName}/{lastName}", method = RequestMethod.GET)
     @ResponseBody
     public String addUser(@PathVariable String email, @PathVariable String password, @PathVariable String firstName, @PathVariable String lastName) {
         User user = new User();
@@ -26,14 +26,13 @@ public class UserController {
         user.setPassword(password);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        //userDao.saveUser(user);
         userDao.save(user);
         return "Added user: " + firstName + " " + lastName + " eMail: " + email;
     }
 
     @RequestMapping(value = "/user/register", method = RequestMethod.GET)
     public String addUserForm(Model model) {
-        if (authenticatedUserId==0) {
+        if ("".equals(authenticatedFullName) == false) {
             User user = new User();
             model.addAttribute("user", user);
             return "addUser";
@@ -48,24 +47,23 @@ public class UserController {
                 + user.getFirstName() + " "
                 + user.getLastName()
         );
-        //userDao.saveUser(user);
         userDao.save(user);
-        authenticatedUserId = user.getId();
+        authenticatedFullName = user.getFirstName() +" "+ user.getLastName();
         String authenticatedFullName = user.getFirstName()+" "+user.getLastName();
         model.addAttribute("authenticatedFullName", authenticatedFullName);
 
         return "success";
     }
 
-    @RequestMapping(value = "/user/modify", method = RequestMethod.GET)
-    public String updateUserForm(Model model){
-        if(authenticatedUserId==0) {return "user/register";}
-        Optional<User> user = userDao.findById(authenticatedUserId);
+    @RequestMapping(value = "/authenticated/user/modify", method = RequestMethod.GET)
+    public String updateUserForm(@AuthenticationPrincipal CurrentUser currentUser, Model model){
+        if("".equals(authenticatedFullName) == false) {return "user/register";}
+        User user = userDao.findFirstByEmail(currentUser.getUsername());
         model.addAttribute("user", user);
         return "updateUser";
     }
 
-    @RequestMapping(value = "/user/modify", method = RequestMethod.POST)
+    @RequestMapping(value = "/authenticated/user/modify", method = RequestMethod.POST)
     public String updateUserInDB(@ModelAttribute User user) {
         System.out.println(user.getEmail() + " "
                 + user.getFirstName() + " "
@@ -76,11 +74,10 @@ public class UserController {
         return "success";
     }
 
-    @RequestMapping(value = "/user/showall")
+    @RequestMapping(value = "/admin/user/showall")
     @ResponseBody
     public String showAllUsers(){
         String result = "";
-        //List<User> allUsers = userDao.showAll();
         List<User> allUsers = userDao.findAll();
         for (int i = 0;i<allUsers.size();i++){
             result = result + allUsers.get(i).getEmail() + " <br>";
@@ -89,14 +86,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/login", method = RequestMethod.GET)
-    public String loginForm(Model model) {
-        if(authenticatedUserId>0){ return "loggedHomepage";}
+    public String loginForm() {
+        if("".equals(authenticatedFullName) == false){ return "loggedHomepage";}
         User user = new User();
-        model.addAttribute("user", user);
+        //model.addAttribute("user", user);
         return "loginPage";
     }
 
-
+/*
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     public String verifyUser(@ModelAttribute User user, Model model) {
 
@@ -114,25 +111,27 @@ public class UserController {
             return "loginPage";
         }
     }
-
+*/
     @RequestMapping(value = "/user/logout")
     public String LoggedOut(Model model){
-        authenticatedUserId=0;
-        String authenticatedFullName="";
+        authenticatedFullName ="";
         model.addAttribute("authenticatedFullName", authenticatedFullName);
         return "index";
     }
 
-    @RequestMapping(value= "user/nowlogged")
+    @RequestMapping(value= "/user/nowlogged")
     @ResponseBody
-    public String loggedUserId(){
-        if(authenticatedUserId==0){return "No one is currently logged in.";}
-        Optional<User> user = userDao.findById(authenticatedUserId);
-        return "Logged in user info: <br> "+ user.get().getEmail() +"<br>"+user.get().getFirstName()+" "+user.get().getLastName();
+    public String loggedUserId(@AuthenticationPrincipal CurrentUser currentUser){
+
+       if(currentUser == null){
+           return "No one is currently logged in.";
+       }
+       User user =userDao.findFirstByEmail(currentUser.getUsername());
+        return "Logged in user info: <br> " + user.getEmail() + "<br>" + user.getFirstName() + " " + user.getLastName();
     }
 
 
-    @RequestMapping("/userManagement")
+    @RequestMapping("/admin/userManagement")
     public String userManagementPage() {
         return "userManagement";
     }

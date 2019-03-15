@@ -1,16 +1,10 @@
-package pl.coderslab.spring01hibernate;
+package pl.asprojects.fileshare;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
@@ -23,8 +17,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 //@RequestMapping("/download.do")
@@ -44,6 +36,10 @@ public class FileDownloadController {
     /**
      * Method for handling file download request from client
      */
+
+    private User currentUser;
+
+
     @RequestMapping(value = "/download.do", method = RequestMethod.GET)
     public void doDownload(HttpServletRequest request,
                            HttpServletResponse response) throws IOException {
@@ -51,7 +47,8 @@ public class FileDownloadController {
         // get absolute path of the application
         ServletContext context = request.getServletContext();
         //String appPath = context.getRealPath("");
-        String appPath = "D:\\upload\\";
+        //String appPath = "D:\\upload\\";
+        String appPath = "C:\\Users\\Adam\\Documents\\";
         System.out.println("appPath = " + appPath);
 
         // construct the complete absolute path of the file
@@ -123,7 +120,7 @@ public class FileDownloadController {
             if(filename.length()==0){file.getOriginalFilename();}
             fileData.setFilename(filename);
             fileData.setPath(path.toString());
-            fileData.setAuthorID();
+            fileData.setAuthorID(currentUser.getId());
 
         } catch (IOException e) {
             e.printStackTrace();

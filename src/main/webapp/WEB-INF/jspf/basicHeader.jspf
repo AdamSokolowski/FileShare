@@ -3,7 +3,7 @@
     <div>
         <table>
             <tr>
-                <td><a href="/userManagement">User management</a></td>
+                <td><a href="/admin/userManagement">User management</a></td>
                 <td><a href="/your">Your Files</a></td>
                 <td><a href="">Web Menus</a></td>
             </tr>

@@ -1,12 +1,13 @@
-package pl.coderslab.spring01hibernate;
+package pl.asprojects.fileshare;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Spring01hibernateApplication {
+public class FileshareApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Spring01hibernateApplication.class, args);
+        SpringApplication.run(FileshareApplication.class, args);
     }
+
 }

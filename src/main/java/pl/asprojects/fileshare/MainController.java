@@ -1,4 +1,4 @@
-package pl.coderslab.spring01hibernate;
+package pl.asprojects.fileshare;
 
 
 import org.springframework.stereotype.Controller;

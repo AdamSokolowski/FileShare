@@ -8,13 +8,14 @@
     <title>User form</title>
 </head>
 <body>
+<h1>Login</h1>
+${SPRING_SECURITY_LAST_EXCEPTION.message}
+<form action="login" method="post">
+    E-Mail:<input type="e-mail" name="username" value=""/><br>
+    Password:<input type="password" name="password"/><br>
 
-<form:form method="post" modelAttribute="user">
-    E-Mail:<form:input path="email"/><br>
-    Password:<form:password path="password"/><br>
-
-    <input type="submit" value="Login"><br>
-</form:form>
+    <input name="submit" type="submit" value="Login"><br>
+</form>
 
 </body>
 </html>

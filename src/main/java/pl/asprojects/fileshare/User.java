@@ -1,4 +1,4 @@
-package pl.coderslab.spring01hibernate;
+package pl.asprojects.fileshare;
 
 import javax.persistence.*;
 
@@ -12,6 +12,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String password;
+    private int role;
 
     public User() {
 
@@ -63,6 +64,12 @@ public class User {
 
         //this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         this.password = password;
+    }
+
+    public int getRole() { return role;}
+
+    public void setRole(int role){
+        this.role = role;
     }
 }
 

@@ -5,17 +5,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Management form</title>
+    <title>Index</title>
 </head>
 <body>
 <%@ include file="../jspf/basicHeader.jspf"%>
-
-    <a href="../user/login">Login Page</a>
-    <a href="../user/register">Register Page</a>
-    <a href="../user/nowlogged">Logged in user Page</a>
-    <a href="./user/showall">Show all registered users</a>
-
-
+<h1>Main Page</h1>
+<a href="/userManagement">User management</a>
 
 </body>
 </html>

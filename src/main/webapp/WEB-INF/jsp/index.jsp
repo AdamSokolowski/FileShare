@@ -8,9 +8,9 @@
     <title>Index</title>
 </head>
 <body>
-<%@ include file="../jspf/basicHeader.jspf"%>
 <h1>Main Page</h1>
-<a href="/userManagement">User management</a>
+    <a href="./user/login">Login Page</a>
+    <a href="./user/register">Register Page</a>
 
 </body>
 </html>

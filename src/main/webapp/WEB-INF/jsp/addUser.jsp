@@ -8,7 +8,6 @@
     <title>User form</title>
 </head>
 <body>
-<%@ include file="../jspf/basicHeader.jspf"%>
 <form:form method="post" modelAttribute="user">
     ID:<form:label path="id"/><br>
     First Name:<form:input path="firstName"/><br>

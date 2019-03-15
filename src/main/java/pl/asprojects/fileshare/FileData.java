@@ -1,4 +1,4 @@
-package pl.coderslab.spring01hibernate;
+package pl.asprojects.fileshare;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
