@@ -7,8 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.asprojects.fileshare.config.CurrentUser;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
+
 
 @Controller
 @SessionAttributes({"authenticatedFullName"})
@@ -16,16 +18,27 @@ public class UserController {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    RoleDao roleDao;
+
+
     private String authenticatedFullName = "";
 
     @RequestMapping(value = "/admin/user/add/{email}/{password}/{firstName}/{lastName}", method = RequestMethod.GET)
     @ResponseBody
     public String addUser(@PathVariable String email, @PathVariable String password, @PathVariable String firstName, @PathVariable String lastName) {
         User user = new User();
+        Role role = roleDao.findRoleByRoleName("USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        System.out.println(role.getRoleName());
         user.setEmail(email);
         user.setPassword(password);
         user.setFirstName(firstName);
         user.setLastName(lastName);
+        user.setActive(true);
+        user.addRole(role);
+
         userDao.save(user);
         return "Added user: " + firstName + " " + lastName + " eMail: " + email;
     }
@@ -87,11 +100,14 @@ public class UserController {
 
     @RequestMapping(value = "/user/login", method = RequestMethod.GET)
     public String loginForm() {
-        if("".equals(authenticatedFullName) == false){ return "loggedHomepage";}
-        User user = new User();
-        //model.addAttribute("user", user);
-        return "loginPage";
+        if("".equals(authenticatedFullName) == false){ return "loggedHomepage";} else {
+            System.out.println("current user: " + authenticatedFullName);
+            //User user = new User();
+            //model.addAttribute("user", user);
+            return "loginPage";
+        }
     }
+
 
 /*
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)

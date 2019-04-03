@@ -9,9 +9,8 @@ import java.util.List;
 
 @Component
 @Transactional
-public interface UserDao extends JpaRepository<User, Long> { //}
+public interface UserDao extends JpaRepository<User, Long> {
 
     User findFirstByEmail(String email);
-
 
 }

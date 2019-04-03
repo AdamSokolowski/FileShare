@@ -1,6 +1,9 @@
 package pl.asprojects.fileshare;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -8,11 +11,19 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     private String email;
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
+    @NotNull
     private String password;
-    private int role;
+    @NotNull
+    private Boolean active;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    //@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> role;
 
     public User() {
 
@@ -66,10 +77,34 @@ public class User {
         this.password = password;
     }
 
-    public int getRole() { return role;}
+    public Boolean isActive() {
+        return active;
+    }
 
-    public void setRole(int role){
-        this.role = role;
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Set<Role> getRoles() {
+        return role;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.role = roles;
+    }
+
+    public void addRole(Role role){
+        if(this.role==null){
+            this.role = new HashSet<Role>();
+        }
+        this.role.add(role);
+    }
+
+    public void removeRole(Role role){
+        if(this.role!=null){
+            this.role.remove(role);
+        }
+
     }
 }
 
