@@ -15,6 +15,7 @@ ${SPRING_SECURITY_LAST_EXCEPTION.message}
     Password:<input type="password" name="password"/><br>
 
     <input name="submit" type="submit" value="Login"><br>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 
 </body>

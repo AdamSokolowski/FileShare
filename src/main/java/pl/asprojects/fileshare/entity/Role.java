@@ -1,7 +1,8 @@
-package pl.asprojects.fileshare;
+package pl.asprojects.fileshare.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
 import java.util.Set;
 
 @Entity

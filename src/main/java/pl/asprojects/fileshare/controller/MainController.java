@@ -1,4 +1,4 @@
-package pl.asprojects.fileshare;
+package pl.asprojects.fileshare.controller;
 
 
 import org.springframework.stereotype.Controller;

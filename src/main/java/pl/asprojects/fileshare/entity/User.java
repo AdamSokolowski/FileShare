@@ -1,7 +1,8 @@
-package pl.asprojects.fileshare;
+package pl.asprojects.fileshare.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,11 +23,11 @@ public class User {
     @NotNull
     private Boolean active;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    //@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> role;
 
     public User() {
-
+    	
     }
 
     public Long getId() {

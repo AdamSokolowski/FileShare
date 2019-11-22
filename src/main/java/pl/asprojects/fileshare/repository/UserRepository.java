@@ -1,16 +1,18 @@
-package pl.asprojects.fileshare;
+package pl.asprojects.fileshare.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.asprojects.fileshare.User;
+
+import pl.asprojects.fileshare.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Transactional
-public interface UserDao extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findFirstByEmail(String email);
+    Optional<User> findByEmail(String email);
 
 }

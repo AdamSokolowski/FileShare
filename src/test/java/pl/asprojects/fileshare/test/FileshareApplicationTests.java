@@ -1,4 +1,4 @@
-package pl.coderslab.spring01hibernate;
+package pl.asprojects.fileshare.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class Spring01hibernateApplicationTests {
+public class FileshareApplicationTests {
 
     @Test
     public void contextLoads() {

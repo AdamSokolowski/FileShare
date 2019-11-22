@@ -12,10 +12,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import pl.asprojects.fileshare.service.SpringDataUserDetailsService;
 
 
 
@@ -28,7 +30,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService securityUserDetailsService;
 
-
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+    	return new BCryptPasswordEncoder();
+    }
+    
+    @Bean
+    public SpringDataUserDetailsService customUserDetailsService() {
+    	return new SpringDataUserDetailsService();
+    }
+    
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -41,8 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeRequests().antMatchers("/index").permitAll()
+                //.csrf().disable()
+                .authorizeRequests().antMatchers("/index", "/user/register", "/user/nowlogged").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/user/login").permitAll()

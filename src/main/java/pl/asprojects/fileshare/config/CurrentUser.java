@@ -3,7 +3,8 @@ package pl.asprojects.fileshare.config;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.asprojects.fileshare.User;
+
+import pl.asprojects.fileshare.entity.User;
 
 import java.util.Collection;
 import java.util.Collections;
